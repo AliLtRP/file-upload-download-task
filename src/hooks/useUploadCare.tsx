@@ -1,9 +1,7 @@
-import { UploadClient } from "@uploadcare/upload-client";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
 function useUploadCare({ publicK }: { publicK: string }) {
-  const client = new UploadClient({ publicKey: publicK });
   const [data, setData] = useState<any>();
   const [isError, setError] = useState<string>();
   const [fetch, setFetch] = useState<boolean>(false);
@@ -16,7 +14,7 @@ function useUploadCare({ publicK }: { publicK: string }) {
   useEffect(() => {
     if (!fetch || !file) return;
 
-    setIsVisible(true); // Show progress bar on file fetch start
+    setIsVisible(true);
 
     const formData = new FormData();
     formData.append("UPLOADCARE_PUB_KEY", publicK);
@@ -33,7 +31,7 @@ function useUploadCare({ publicK }: { publicK: string }) {
               const { loaded, total } = progressEvent;
               setLoaded(loaded);
               setTotal(total!);
-              setProgress((loaded / total!) * 100);
+              setProgress((loaded / total!) * 97);
             },
           }
         );
@@ -56,6 +54,7 @@ function useUploadCare({ publicK }: { publicK: string }) {
     setTotal(0);
     setLoaded(0);
   };
+
   return {
     data,
     isError,

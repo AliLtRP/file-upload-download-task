@@ -5,8 +5,8 @@ import {
 
 const FetchFiles = async () => {
   const uploadcareSimpleAuthSchema = new UploadcareSimpleAuthSchema({
-    publicKey: "d397e169eeaeaab6f930",
-    secretKey: "6967a8fe72bc3b51288d",
+    publicKey: "14d03156cea50f38ae21",
+    secretKey: "33d7233477c2c9e24e0f",
   });
 
   const result = await listOfFiles(

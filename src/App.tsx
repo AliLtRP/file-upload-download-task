@@ -21,39 +21,46 @@ function App() {
     setFile,
     setFetch,
   } = useUploadCare({
-    publicK: "d397e169eeaeaab6f930",
+    publicK: "14d03156cea50f38ae21",
   });
 
   const [filesList, setFilesList] = useState();
-  const [flag, setFlag] = useState<boolean>(false);
+  const [flag, setFlag] = useState<boolean>(true);
 
-  const fetch = () => {
-    const fetchData = FetchFiles()
-      .then((res) => {
-        console.log(res);
-        setFilesList(res.results);
-      })
-      .catch((e) => console.log(e));
+  const fetch = async () => {
+    try {
+      const res = await FetchFiles();
+      setFilesList(res.results);
+      setFlag(false);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   useEffect(() => {
+    if (flag) {
+      fetch();
+      console.log("fetching...");
+      setFlag(false);
+    }
+  }, [filesList, flag]);
+
+  useEffect(() => {
     fetch();
-  }, []);
+  }, [data]);
 
   const handleClick = () => {
     fileDialog()
       .then((file) => {
-        setFlag(true);
         setFetch(true);
         setFile(file[0]);
       })
       .catch((e) => {
         console.log(e);
       });
-
-    setFetch(false);
-    setFlag(false);
   };
+
+  console.log(data);
 
   return (
     <Wrapper className="bg-[#F6F9FF] w-full h-auto min-h-[100vh] flex flex-col justify-center items-center">
