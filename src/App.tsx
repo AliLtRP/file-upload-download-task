@@ -5,15 +5,28 @@ import Wrapper from "./components/Wrapper";
 import { RiDownloadCloud2Line } from "react-icons/ri";
 import CustomFileReceiver from "./components/CustomFileReceiver";
 import CustomButton from "./components/CustomButton";
+import useUploadCare from "./hooks/useUploadCare";
+import fileDialog from "file-dialog";
 
 function App() {
+  const { data, isError, setFile, setFetch } = useUploadCare({
+    publicK: "39de4d5d3bfb2f6e1abb",
+  });
+
+  const handleClick = () => {
+    fileDialog().then((file) => {
+      setFetch(true);
+      setFile(file[0]);
+    });
+  };
+
+  console.log(data);
+
   return (
     <Wrapper className="bg-[#F6F9FF] w-full h-auto min-h-[100vh] flex flex-col justify-center items-center">
       <Wrapper className="w-80 flex justify-end">
         <Wrapper className="p-4 bg-white rounded-2xl border-8 border-[#E0EAFD]">
-          <RiDownloadCloud2Line size={25}>
-            <input type="file" multiple />
-          </RiDownloadCloud2Line>
+          <RiDownloadCloud2Line size={25} onClick={() => handleClick()} />
         </Wrapper>
       </Wrapper>
       <Wrapper className="h-auto w-80 flex flex-col justify-start items-start gap-0 p-6 my-4 rounded-3xl shadow-2xl bg-white">
@@ -32,8 +45,16 @@ function App() {
             className="mulish text-xs font-light ml-1"
           />
         </Wrapper>
-        <CustomFileReceiver />
-        <CustomFileReceiver />
+        <CustomFileReceiver
+          originalFilename={data?.originalFilename}
+          size={data?.size}
+          isStored={data?.isStored}
+        />
+        <CustomFileReceiver
+          originalFilename={data?.originalFilename}
+          size={data?.size}
+          isStored={data?.isStored}
+        />
 
         <CustomButton
           title="Go to Downloads"

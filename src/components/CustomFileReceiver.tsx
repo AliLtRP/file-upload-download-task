@@ -3,7 +3,15 @@ import { FaCheck } from "react-icons/fa6";
 import CustomTitle from "./CustomTitle";
 import { FaRegTrashAlt } from "react-icons/fa";
 
-const CustomFileReceiver = () => {
+import { UploadcareFile } from "@uploadcare/upload-client";
+
+const CustomFileReceiver = ({
+  originalFilename,
+  isStored,
+  size,
+}: UploadcareFile) => {
+  console.log(originalFilename, isStored, size);
+
   return (
     <Wrapper className="w-full h-auto">
       <Wrapper className="w-full h-auto flex justify-between items-center p-2 py-4">
@@ -15,11 +23,11 @@ const CustomFileReceiver = () => {
           />
           <Wrapper>
             <CustomTitle
-              title="Filename.jpg"
+              title={originalFilename || "Filename.jpg"}
               className=" font-bold text-base"
             />
             <CustomTitle
-              title="1 TB used"
+              title={size?.toString() || "1 TB used"}
               className="mulish font-normal text-xs"
             />
           </Wrapper>

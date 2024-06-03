@@ -3,3 +3,9 @@ export interface CustomTitleProps {
   className?: string;
   handleClick?: () => void;
 }
+
+export interface UploadCareApiResponse {
+  originalFilename: string;
+  isStored: boolean;
+  size: number;
+}
