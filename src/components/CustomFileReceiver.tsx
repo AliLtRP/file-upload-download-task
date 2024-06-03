@@ -3,13 +3,39 @@ import { FaCheck } from "react-icons/fa6";
 import CustomTitle from "./CustomTitle";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { UploadCareApiResponse } from "../types";
+import {
+  UploadcareSimpleAuthSchema,
+  deleteFile,
+} from "@uploadcare/rest-client";
 
 const CustomFileReceiver = ({
   originalFilename,
-  isStored,
   size,
-  handleDelete,
+  uuid,
 }: UploadCareApiResponse) => {
+  const d = async () => {
+    const uploadcareSimpleAuthSchema = new UploadcareSimpleAuthSchema({
+      publicKey: "d397e169eeaeaab6f930",
+      secretKey: "6967a8fe72bc3b51288d",
+    });
+
+    try {
+      console.log(uuid);
+
+      const result = await deleteFile(
+        {
+          uuid: uuid!,
+        },
+        { authSchema: uploadcareSimpleAuthSchema }
+      );
+
+      window.location.reload();
+      return result;
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <Wrapper className="w-full h-auto">
       <Wrapper className="w-full h-auto flex justify-between items-center p-2 py-4">
@@ -25,13 +51,13 @@ const CustomFileReceiver = ({
               className=" font-bold text-base"
             />
             <CustomTitle
-              title={size?.toString() || "1 TB used"}
+              title={size! / 1000?.toString() + "KB" || "1 TB used"}
               className="mulish font-normal text-xs"
             />
           </Wrapper>
         </Wrapper>
 
-        <FaRegTrashAlt onClick={() => handleDelete} />
+        <FaRegTrashAlt onClick={() => d()} />
       </Wrapper>
 
       <hr />
