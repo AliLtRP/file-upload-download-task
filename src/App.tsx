@@ -11,18 +11,10 @@ import FetchFiles from "./components/FetchFiles";
 import { useEffect, useState } from "react";
 
 function App() {
-  const {
-    data,
-    progress,
-    total,
-    isVisible,
-    loaded,
-    isError,
-    setFile,
-    setFetch,
-  } = useUploadCare({
-    publicK: "14d03156cea50f38ae21",
-  });
+  const { data, progress, total, isVisible, loaded, setFile, setFetch } =
+    useUploadCare({
+      publicK: "14d03156cea50f38ae21",
+    });
 
   const [filesList, setFilesList] = useState();
   const [flag, setFlag] = useState<boolean>(true);

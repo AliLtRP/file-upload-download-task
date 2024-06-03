@@ -51,7 +51,7 @@ const CustomFileReceiver = ({
               className=" font-bold text-base"
             />
             <CustomTitle
-              title={size! / 1000?.toString() + "KB" || "1 TB used"}
+              title={(size! / 1000)?.toString() + "KB" || "1 TB used"}
               className="mulish font-normal text-xs"
             />
           </Wrapper>
