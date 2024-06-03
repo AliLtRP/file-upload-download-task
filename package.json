@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@uploadcare/rest-client": "^6.14.1",
     "@uploadcare/upload-client": "^6.14.1",
     "axios": "^1.7.2",
     "file-dialog": "^0.0.8",

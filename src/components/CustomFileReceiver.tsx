@@ -2,16 +2,14 @@ import Wrapper from "./Wrapper";
 import { FaCheck } from "react-icons/fa6";
 import CustomTitle from "./CustomTitle";
 import { FaRegTrashAlt } from "react-icons/fa";
-
-import { UploadcareFile } from "@uploadcare/upload-client";
+import { UploadCareApiResponse } from "../types";
 
 const CustomFileReceiver = ({
   originalFilename,
   isStored,
   size,
-}: UploadcareFile) => {
-  console.log(originalFilename, isStored, size);
-
+  handleDelete,
+}: UploadCareApiResponse) => {
   return (
     <Wrapper className="w-full h-auto">
       <Wrapper className="w-full h-auto flex justify-between items-center p-2 py-4">
@@ -33,7 +31,7 @@ const CustomFileReceiver = ({
           </Wrapper>
         </Wrapper>
 
-        <FaRegTrashAlt />
+        <FaRegTrashAlt onClick={() => handleDelete} />
       </Wrapper>
 
       <hr />

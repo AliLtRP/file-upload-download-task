@@ -7,11 +7,16 @@ import CustomFileReceiver from "./components/CustomFileReceiver";
 import CustomButton from "./components/CustomButton";
 import useUploadCare from "./hooks/useUploadCare";
 import fileDialog from "file-dialog";
+import useApi from "./hooks/useApi";
+import FetchFiles from "./components/FetchFiles";
+import { useEffect } from "react";
 
 function App() {
   const { data, isError, setFile, setFetch } = useUploadCare({
     publicK: "39de4d5d3bfb2f6e1abb",
   });
+
+  const fetch = FetchFiles();
 
   const handleClick = () => {
     fileDialog().then((file) => {
@@ -20,7 +25,18 @@ function App() {
     });
   };
 
+  useEffect(() => {
+    if (data) {
+      fetch;
+    }
+  }, [data]);
+  // const delteFile = () => {
+  //   setPayload("1");
+  //   setFetching(false);
+  // };
+
   console.log(data);
+  // console.log(apiData);
 
   return (
     <Wrapper className="bg-[#F6F9FF] w-full h-auto min-h-[100vh] flex flex-col justify-center items-center">
@@ -45,16 +61,14 @@ function App() {
             className="mulish text-xs font-light ml-1"
           />
         </Wrapper>
-        <CustomFileReceiver
-          originalFilename={data?.originalFilename}
-          size={data?.size}
-          isStored={data?.isStored}
-        />
-        <CustomFileReceiver
-          originalFilename={data?.originalFilename}
-          size={data?.size}
-          isStored={data?.isStored}
-        />
+
+        {data && (
+          <CustomFileReceiver
+            originalFilename={data?.originalFilename}
+            size={data?.size}
+            isStored={data?.isStored}
+          />
+        )}
 
         <CustomButton
           title="Go to Downloads"
