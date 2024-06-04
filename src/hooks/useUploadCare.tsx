@@ -1,7 +1,13 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-function useUploadCare({ publicK }: { publicK: string }) {
+function useUploadCare({
+  publicK,
+  handleLoading,
+}: {
+  publicK: string;
+  handleLoading: (flag: boolean) => void;
+}) {
   const [data, setData] = useState<any>();
   const [isError, setError] = useState<string>();
   const [fetch, setFetch] = useState<boolean>(false);
@@ -37,6 +43,7 @@ function useUploadCare({ publicK }: { publicK: string }) {
         );
         setData(res.data);
         setIsVisible(false);
+        handleLoading(false);
         reset();
       } catch (error) {
         setError(error.message);
@@ -53,6 +60,7 @@ function useUploadCare({ publicK }: { publicK: string }) {
     setProgress(0);
     setTotal(0);
     setLoaded(0);
+    handleLoading;
   };
 
   return {

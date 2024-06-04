@@ -11,9 +11,11 @@ import FetchFiles from "./components/FetchFiles";
 import { useEffect, useState } from "react";
 
 function App() {
+  const [render, setRender] = useState<boolean>(false);
   const { data, progress, total, isVisible, loaded, setFile, setFetch } =
     useUploadCare({
       publicK: "14d03156cea50f38ae21",
+      handleLoading: () => handleRender(),
     });
 
   const [filesList, setFilesList] = useState();
@@ -23,7 +25,7 @@ function App() {
     try {
       const res = await FetchFiles();
       setFilesList(res.results);
-      setFlag(false);
+      setFlag(true);
     } catch (e) {
       console.log(e);
     }
@@ -41,9 +43,15 @@ function App() {
     fetch();
   }, [data]);
 
+  const handleRender = () => {
+    setRender(false);
+  };
+
   const handleClick = () => {
     fileDialog()
       .then((file) => {
+        setFlag(true);
+        setRender(true);
         setFetch(true);
         setFile(file[0]);
       })
@@ -51,8 +59,6 @@ function App() {
         console.log(e);
       });
   };
-
-  console.log(data);
 
   return (
     <Wrapper className="bg-[#F6F9FF] w-full h-auto min-h-[100vh] flex flex-col justify-center items-center">
@@ -62,31 +68,35 @@ function App() {
         </Wrapper>
       </Wrapper>
       <Wrapper className="h-auto w-80 flex flex-col justify-start items-start gap-0 p-6 my-4 rounded-3xl shadow-2xl bg-white overflow-y-auto">
-        <Wrapper className="w-full flex flex-col justify-evenly items-start p-2 rounded-xl bg-[#F6F9FF] h-28">
-          <CustomTitle
-            title="Loading...."
-            className="mulish text-[18px] ml-1"
-          />
+        {render && (
+          <Wrapper
+            className={`w-full flex flex-col justify-evenly items-start p-2 rounded-xl bg-[#F6F9FF] h-28`}
+          >
+            <CustomTitle
+              title="Loading...."
+              className={` mulish text-[18px] ml-1`}
+            />
 
-          <Wrapper className="relative w-full h-4 bg-white rounded-full overflow-hidden border-2 border-[#E0EAFD] opacity-100 p-2">
-            <CustomProgressSlider isVisible={isVisible} progress={progress} />
+            <Wrapper className="relative w-full h-4 bg-white rounded-full overflow-hidden border-2 border-[#E0EAFD] opacity-100 p-2">
+              <CustomProgressSlider isVisible={isVisible} progress={progress} />
+            </Wrapper>
+
+            <CustomTitle
+              title={
+                `${
+                  (loaded / 1000).toFixed(1) == "0.4"
+                    ? 0.0
+                    : (loaded / 1000).toFixed(1)
+                } KB of ${
+                  (total / 1000).toFixed(1) == "0.4"
+                    ? 0.0
+                    : (loaded / 1000).toFixed(1)
+                } KB` || "256 bytes of 1 TB"
+              }
+              className="mulish text-xs font-light ml-1"
+            />
           </Wrapper>
-
-          <CustomTitle
-            title={
-              `${
-                (loaded / 1000).toFixed(1) == "0.4"
-                  ? 0.0
-                  : (loaded / 1000).toFixed(1)
-              } KB of ${
-                (total / 1000).toFixed(1) == "0.4"
-                  ? 0.0
-                  : (loaded / 1000).toFixed(1)
-              } KB` || "256 bytes of 1 TB"
-            }
-            className="mulish text-xs font-light ml-1"
-          />
-        </Wrapper>
+        )}
 
         {filesList?.map((v, i) => {
           return (
